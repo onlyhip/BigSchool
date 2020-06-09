@@ -5,9 +5,8 @@ using System.Web;
 
 namespace BigSchool.DTOs
 {
-    public class AttendanceDto
+    public class FollowingDto
     {
-        public int CourseId { get; set; }
+        public string FolloweeId { get; set; }
     }
-
 }
