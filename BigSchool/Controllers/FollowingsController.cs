@@ -1,8 +1,10 @@
 ﻿using BigSchool.DTOs;
 using BigSchool.Models;
+using BigSchool.ViewModels;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -17,7 +19,7 @@ namespace BigSchool.Controllers
         {
             _dbContext = new ApplicationDbContext();
         }
-
+        
         [HttpPost]
         public IHttpActionResult Follow(FollowingDto followingDto)
         {
@@ -36,5 +38,6 @@ namespace BigSchool.Controllers
 
             return Ok();
         }
+
     }
 }
