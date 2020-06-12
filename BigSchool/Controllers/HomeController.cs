@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using BigSchool.Models;
 using System.Data.Entity;
 using BigSchool.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace BigSchool.Controllers
 {
@@ -19,13 +20,28 @@ namespace BigSchool.Controllers
  
         public ActionResult Index()
         {
+
+
             var upcomingCourses = _dbContext.Courses
                 .Include(c => c.Lecturer)
                 .Include(c => c.Category)
                 .Where(c => c.DateTime > DateTime.Now);
 
+            var userId = User.Identity.GetUserId();
+
+            var follows = _dbContext.Followings
+                .Where(a => a.FollowerId == userId)
+                .Select(a => a.Followee)
+                .ToList();
+
+            var Attend = _dbContext.Attendances
+                .Where(a => a.AttendeeId == userId)
+                .Select(a => a.CourseId)
+                .ToList();
+
             var viewModel = new CoursesViewModel
             {
+                Follows = follows,
                 UpcomingCourses = upcomingCourses,
                 ShowAction = User.Identity.IsAuthenticated
             };

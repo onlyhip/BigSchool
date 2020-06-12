@@ -21,7 +21,18 @@
                         @course.Lecturer.Name
                         @if (Model.ShowAction)
                         {
-                            <button style="border-color:white; color:blue" class="btn btn-default btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Follow</button>
+                            foreach(var fl in Model.Follows)
+                            {
+                                if(@course.Lecturer.Name == @fl.Name)
+                                {
+                                    <button style="border-color:white; color:blue" class="btn btn-default btn-sm">Following</button>
+                                }
+                                else
+                                {
+                                    <button style="border-color:white; color:blue" class="btn btn-default btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Follow</button>
+                                }
+                            }
+
                         }
                     </span>
                 </div>
@@ -31,6 +42,7 @@
                     </span>
                     @if (Model.ShowAction)
                     {
+
                         <button data-course-id="@course.Id" class="btn btn-default btn-sm js-toggle-attendance">Going?</button>
                     }
 

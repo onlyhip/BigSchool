@@ -20,6 +20,6 @@ namespace BigSchool.ViewModels
 
             return (isValid && dateTime > DateTime.Now);
         }
-
+         
     }
 }
