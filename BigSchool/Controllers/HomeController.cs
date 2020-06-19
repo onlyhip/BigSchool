@@ -16,8 +16,8 @@ namespace BigSchool.Controllers
         public HomeController()
         {
             _dbContext = new ApplicationDbContext();
-        } 
- 
+        }
+
         public ActionResult Index()
         {
 
@@ -25,23 +25,28 @@ namespace BigSchool.Controllers
             var upcomingCourses = _dbContext.Courses
                 .Include(c => c.Lecturer)
                 .Include(c => c.Category)
-                .Where(c => c.DateTime > DateTime.Now);
+                .Where(c => c.DateTime > DateTime.Now && !c.IsCanceled);
 
             var userId = User.Identity.GetUserId();
 
             var follows = _dbContext.Followings
+                .Include(a => a.Followee)
+                .Include(a => a.Follower)
                 .Where(a => a.FollowerId == userId)
-                .Select(a => a.Followee)
                 .ToList();
 
-            var Attend = _dbContext.Attendances
+
+            var attend = _dbContext.Attendances
+                .Include(a => a.Attendee)
+                .Include(a => a.Course)
                 .Where(a => a.AttendeeId == userId)
-                .Select(a => a.CourseId)
                 .ToList();
+                
 
             var viewModel = new CoursesViewModel
             {
-                Follows = follows,
+                FollowingUser = follows,
+                AttendanceCourse = attend,
                 UpcomingCourses = upcomingCourses,
                 ShowAction = User.Identity.IsAuthenticated
             };

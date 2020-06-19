@@ -12,8 +12,10 @@ namespace BigSchool.ViewModels
     
         public IEnumerable<ApplicationUser> Follows { get; set; }
     
-        public IEnumerable<Following> Fl { get; set; }
+        public List<Following> FollowingUser { get; set; }
 
+
+        public List<Attendance> AttendanceCourse { get; set; }
 
         public bool ShowAction { get; set; }
 

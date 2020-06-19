@@ -21,16 +21,18 @@
                         @course.Lecturer.Name
                         @if (Model.ShowAction)
                         {
-                            foreach(var fl in Model.Follows)
+                            bool IsFollowing = Model.FollowingUser.Any(f => f.Followee.Id == @course.LecturerId);
+
+                            if (IsFollowing == true)
                             {
-                                if(@course.Lecturer.Name == @fl.Name)
-                                {
-                                    <button style="border-color:white; color:blue" class="btn btn-default btn-sm">Following</button>
-                                }
-                                else
-                                {
-                                    <button style="border-color:white; color:blue" class="btn btn-default btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Follow</button>
-                                }
+                                <button style="border-color:white; color:blue" class="btn btn-default btn-link js-toggle-follow" data-user-id="@course.LecturerId">Following</button>
+
+                            }
+                            else
+                            {
+
+                                <button style="border-color:white; color:blue" class="btn btn-default btn-link js-toggle-follow" data-user-id="@course.LecturerId">Follow</button>
+
                             }
 
                         }
@@ -42,8 +44,16 @@
                     </span>
                     @if (Model.ShowAction)
                     {
+                        bool IsAttendance = Model.AttendanceCourse.Any(f => f.CourseId == @course.Id);
+                        if (IsAttendance == true)
+                        {
+                            <button data-course-id="@course.Id" class="btn btn-info btn-sm js-toggle-attendance">Going</button>
+                        }
+                        else
+                        {
+                            <button data-course-id="@course.Id" class="btn btn-default btn-sm js-toggle-attendance">Going?</button>
+                        }
 
-                        <button data-course-id="@course.Id" class="btn btn-default btn-sm js-toggle-attendance">Going?</button>
                     }
 
                 </div>
@@ -60,10 +70,19 @@
                 var button = $(e.target);
                 $.post("/api/attendances", { courseId: button.attr("data-course-id") })
                     .done(function () {
-                        button
-                            .removeClass("btn-default")
-                            .addClass("btn-info")
-                            .text("Going");
+                        if (button.text() == "Going?") {
+                            button
+                           .removeClass("btn-default")
+                           .addClass("btn-info")
+                           .text("Going");
+                        }
+                        else {
+                            button
+                           .removeClass("btn-info")
+                           .addClass("btn-default")
+                           .text("Going");
+                        }
+
                     })
                     .fail(function () {
                         alert("Something failed!");
@@ -73,7 +92,12 @@
                 var button = $(e.target);
                 $.post("/api/followings", { followeeId: button.attr("data-user-id") })
                     .done(function () {
-                        button.text("Following");
+                        if (button.text() == "Follow") {
+                            button.text("Following");
+                        }
+                        else {
+                            button.text("Follow")
+                        }
                     })
                     .fail(function () {
                         alert("Something failed!");

@@ -25,17 +25,30 @@ namespace BigSchool.Controllers
         {
             var userId = User.Identity.GetUserId();
             if (_dbContext.Attendances.Any(a => a.AttendeeId == userId && a.CourseId == attendanceDto.CourseId))
-                return BadRequest("The Attendance already exists!");
-
-            var attendance = new Attendance
             {
-                CourseId = attendanceDto.CourseId,
-                AttendeeId = userId
-            };
-            _dbContext.Attendances.Add(attendance);
-            _dbContext.SaveChanges();
+                var attendance = new Attendance
+                {
+                    CourseId = attendanceDto.CourseId,
+                    AttendeeId = userId
+                };
+                _dbContext.Attendances.Attach(attendance);
+                _dbContext.Attendances.Remove(attendance);
+                _dbContext.SaveChanges();
 
-            return Ok();
+                return Ok();
+            }
+            else {
+                var attendance = new Attendance
+                {
+                    CourseId = attendanceDto.CourseId,
+                    AttendeeId = userId
+                };
+                _dbContext.Attendances.Add(attendance);
+                _dbContext.SaveChanges();
+
+                return Ok();
+            }
+            
         }
         //public IHttpActionResult Attend([FromBody] int courseId)
         //{

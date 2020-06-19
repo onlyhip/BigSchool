@@ -13,7 +13,7 @@ namespace BigSchool.ViewModels
         {
             DateTime dateTime;
             var isValid = DateTime.TryParseExact(Convert.ToString(value), 
-                "dd/MM/yyyy", 
+                "yyyy/MM/dd", 
                 CultureInfo.CurrentCulture, 
                 DateTimeStyles.None, 
                 out dateTime);
