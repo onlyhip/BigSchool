@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Mine</h2>
+<h2>My Upcoming Courses</h2>
 <ul class="course">
     @foreach (var course in Model)
     {
@@ -19,14 +19,14 @@
             </div>
             <div class="details">
                 <div>
-                    <span class="lecturer">
+                    <span class="lecturer_mine">
                         @course.Lecturer.Name
+                        
                     </span>
 
                 </div>
-
                 <div>
-                    <span class="category">
+                    <span class="category_mine">
                         @course.Category.Name
                     </span>
 

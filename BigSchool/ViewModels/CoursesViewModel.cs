@@ -17,6 +17,9 @@ namespace BigSchool.ViewModels
 
         public List<Attendance> AttendanceCourse { get; set; }
 
+
+        public string UserID { get; set; }
+
         public bool ShowAction { get; set; }
 
     }

@@ -4,17 +4,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Lecturer I'm Following</h2>
+<h2>Following</h2>
 
 <ul>
     @foreach (var follow in Model.Follows)
     {
-        <li>
-            <div>
-                <span style="font-size:20px">
-                    @follow.Name
-                </span>
-            </div>
-        </li>
+        <li>@follow.Name</li>
     }
 </ul>

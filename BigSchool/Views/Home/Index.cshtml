@@ -3,6 +3,7 @@
     ViewBag.Title = "Home Page";
 }
 
+<h2> Upcoming Courses</h2>
 <ul class="course">
     @foreach (var course in Model.UpcomingCourses)
     {
@@ -19,42 +20,50 @@
                 <div>
                     <span class="lecturer">
                         @course.Lecturer.Name
-                        @if (Model.ShowAction)
+                        @if (course.LecturerId != Model.UserID)
                         {
-                            bool IsFollowing = Model.FollowingUser.Any(f => f.Followee.Id == @course.LecturerId);
-
-                            if (IsFollowing == true)
+                            if (Model.ShowAction)
                             {
-                                <button style="border-color:white; color:blue" class="btn btn-default btn-link js-toggle-follow" data-user-id="@course.LecturerId">Following</button>
+                                bool IsFollowing = Model.FollowingUser.Any(f => f.Followee.Id == @course.LecturerId);
+
+                                if (IsFollowing == true)
+                                {
+                                    <button style="border-color:white; color:blue" class="btn btn-link btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Following</button>
+
+                                }
+                                else
+                                {
+
+                                    <button style="border-color:white; color:blue" class="btn btn-link btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Follow</button>
+
+                                }
 
                             }
-                            else
-                            {
-
-                                <button style="border-color:white; color:blue" class="btn btn-default btn-link js-toggle-follow" data-user-id="@course.LecturerId">Follow</button>
-
-                            }
-
                         }
+
                     </span>
                 </div>
                 <div>
                     <span class="category">
                         @course.Category.Name
                     </span>
-                    @if (Model.ShowAction)
+                    @if (course.LecturerId != Model.UserID)
                     {
-                        bool IsAttendance = Model.AttendanceCourse.Any(f => f.CourseId == @course.Id);
-                        if (IsAttendance == true)
+                        if (Model.ShowAction)
                         {
-                            <button data-course-id="@course.Id" class="btn btn-info btn-sm js-toggle-attendance">Going</button>
-                        }
-                        else
-                        {
-                            <button data-course-id="@course.Id" class="btn btn-default btn-sm js-toggle-attendance">Going?</button>
-                        }
+                            bool IsAttendance = Model.AttendanceCourse.Any(f => f.CourseId == @course.Id);
+                            if (IsAttendance == true)
+                            {
+                                <button data-course-id="@course.Id" class="btn btn-info btn-sm-block js-toggle-attendance">Going</button>
+                            }
+                            else
+                            {
+                                <button data-course-id="@course.Id" class="btn btn-default btn-sm-block js-toggle-attendance">Going?</button>
+                            }
 
+                        }
                     }
+
 
                 </div>
 
@@ -72,15 +81,17 @@
                     .done(function () {
                         if (button.text() == "Going?") {
                             button
-                           .removeClass("btn-default")
-                           .addClass("btn-info")
-                           .text("Going");
+                                .removeClass("btn-default")
+                                .addClass("btn-info")
+                                .text("Going");
+
                         }
                         else {
                             button
-                           .removeClass("btn-info")
-                           .addClass("btn-default")
-                           .text("Going");
+                                .removeClass("btn-info")
+                                .addClass("btn-default")
+                                .text("Going?");
+
                         }
 
                     })

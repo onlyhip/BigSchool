@@ -41,10 +41,11 @@ namespace BigSchool.Controllers
                 .Include(a => a.Course)
                 .Where(a => a.AttendeeId == userId)
                 .ToList();
-                
+
 
             var viewModel = new CoursesViewModel
             {
+                UserID = userId,
                 FollowingUser = follows,
                 AttendanceCourse = attend,
                 UpcomingCourses = upcomingCourses,

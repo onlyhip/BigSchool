@@ -65,9 +65,18 @@ namespace BigSchool.Controllers
                 .Include(l => l.Lecturer)
                 .Include(l => l.Category)
                 .ToList();
+           
+            var follows = _dbContext.Followings
+              .Include(a => a.Followee)
+              .Include(a => a.Follower)
+              .Where(a => a.FollowerId == userId)
+              .ToList();
+
+
 
             var viewModel = new CoursesViewModel
             {
+                FollowingUser = follows,
                 UpcomingCourses = courses,
                 ShowAction = User.Identity.IsAuthenticated
             };

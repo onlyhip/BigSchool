@@ -24,7 +24,20 @@
                         @course.Lecturer.Name
                         @if (Model.ShowAction)
                         {
-                            <button style="border-color:white; color:blue" class="btn btn-default btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Follow</button>
+                            bool IsFollowing = Model.FollowingUser.Any(f => f.Followee.Id == @course.LecturerId);
+
+                            if (IsFollowing == true)
+                            {
+                                <button style="border-color:white; color:blue" class="btn btn-link btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Following</button>
+
+                            }
+                            else
+                            {
+
+                                <button style="border-color:white; color:blue" class="btn btn-link btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Follow</button>
+
+                            }
+
                         }
                     </span>
                 </div>
@@ -39,3 +52,27 @@
         </li>
     }
 </ul>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".js-toggle-follow").click(function (e) {
+                var button = $(e.target);
+                $.post("/api/followings", { followeeId: button.attr("data-user-id") })
+                    .done(function () {
+                        if (button.text() == "Follow") {
+                            button.text("Following");
+                        }
+                        else {
+                            button.text("Follow")
+                        }
+                    })
+                    .fail(function () {
+                        alert("Something failed!");
+                    });
+            });
+        });
+    </script>
+}
+
+
